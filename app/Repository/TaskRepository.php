@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -14,5 +15,10 @@ class TaskRepository
     {
         $this->em = $em;
         $this->repo = $repo;
+    }
+
+    public function findActiveTasks()
+    {
+        return $this->repo->findBy(['status' => Task::STATUS_IN_WORK]);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use App\Action\IndexAction;
+use App\Action\TaskCreateAction;
 use Slim\App;
 
 return static function (App $app) {
-    $app->get('/', IndexAction::class);
+    $app->get('/tasks', \App\Action\ListActiveTaskAction::class);
 };
