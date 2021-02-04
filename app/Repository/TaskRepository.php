@@ -45,4 +45,16 @@ class TaskRepository
 
         return $task->getStatus();
     }
+
+    public function addTask($text)
+    {
+        $task = new Task();
+        $task->setText($text);
+        $task->setStatusActive();
+        $this->em->persist($task);
+        $this->em->flush();
+
+        return $task->getId();
+    }
+
 }

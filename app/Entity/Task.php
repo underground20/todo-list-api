@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use http\Exception\InvalidArgumentException;
 
 /**
  * @ORM\Entity
@@ -12,6 +13,8 @@ class Task implements \JsonSerializable
 {
     public const STATUS_IN_WORK = 0;
     public const STATUS_DONE = 1;
+
+    private const TEXT_MAX_LENGTH = 1000;
     /**
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
@@ -41,7 +44,10 @@ class Task implements \JsonSerializable
 
     public function setText($text)
     {
-        $this->text = $text;
+        if (!count($text) > self::TEXT_MAX_LENGTH) {
+            $this->text = $text;
+        }
+        throw new \InvalidArgumentException('Parameter text over than ' . self::TEXT_MAX_LENGTH . 'symbols');
     }
 
     public function getStatus()
