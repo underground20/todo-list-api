@@ -21,4 +21,9 @@ class TaskRepository
     {
         return $this->repo->findBy(['status' => Task::STATUS_IN_WORK]);
     }
+
+    public function findArchivedTasks()
+    {
+        return $this->repo->findBy(['status' => Task::STATUS_DONE]);
+    }
 }
