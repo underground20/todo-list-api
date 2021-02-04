@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use http\Exception\InvalidArgumentException;
-
 /**
  * @ORM\Entity
  * @@ORM\Table(name="tasks")
@@ -47,7 +45,7 @@ class Task implements \JsonSerializable
         if (mb_strlen($text) < self::TEXT_MAX_LENGTH) {
             $this->text = $text;
         } else {
-            throw new \InvalidArgumentException('Parameter text over than ' . self::TEXT_MAX_LENGTH . ' symbols');
+            throw new \InvalidArgumentException('Parameter text over than ' . self::TEXT_MAX_LENGTH . ' symbols', 404);
         }
     }
 
