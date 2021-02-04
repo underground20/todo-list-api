@@ -35,4 +35,14 @@ class TaskRepository
 
         return true;
     }
+
+    public function changeStatusOnDone($id)
+    {
+        $task = $this->repo->find($id);
+        $task->setStatusDone();
+        $this->em->persist($task);
+        $this->em->flush();
+
+        return $task->getStatus();
+    }
 }
