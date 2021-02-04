@@ -26,4 +26,13 @@ class TaskRepository
     {
         return $this->repo->findBy(['status' => Task::STATUS_DONE]);
     }
+
+    public function deleteTask($id)
+    {
+        $task = $this->repo->find($id);
+        $this->em->remove($task);
+        $this->em->flush();
+
+        return true;
+    }
 }
