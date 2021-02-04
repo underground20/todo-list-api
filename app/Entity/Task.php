@@ -49,6 +49,11 @@ class Task implements \JsonSerializable
         return $this->status;
     }
 
+    public function setStatusActive()
+    {
+        $this->status = self::STATUS_IN_WORK;
+    }
+
     public function setStatusDone()
     {
         $this->status = self::STATUS_DONE;
