@@ -44,10 +44,11 @@ class Task implements \JsonSerializable
 
     public function setText($text)
     {
-        if (!count($text) > self::TEXT_MAX_LENGTH) {
+        if (mb_strlen($text) < self::TEXT_MAX_LENGTH) {
             $this->text = $text;
+        } else {
+            throw new \InvalidArgumentException('Parameter text over than ' . self::TEXT_MAX_LENGTH . ' symbols');
         }
-        throw new \InvalidArgumentException('Parameter text over than ' . self::TEXT_MAX_LENGTH . 'symbols');
     }
 
     public function getStatus()
