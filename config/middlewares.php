@@ -7,10 +7,11 @@ use App\Middleware\ExceptionHandler;
 return static function (App $app) {
     $settings = $app->getContainer()->get('settings');
     $app->add(RequestAttribute::class);
+    $app->addBodyParsingMiddleware();
     $app->addRoutingMiddleware();
 
-    $devMode = getenv('DEV_MODE', true);
-    if ($devMode) {
+    $devMode = getenv('DEV_MODE');
+    if ($devMode === true) {
         $app->addErrorMiddleware(
             $settings['displayErrorDetails'],
             $settings['logErrors'],

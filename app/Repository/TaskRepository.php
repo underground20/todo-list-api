@@ -29,21 +29,23 @@ class TaskRepository
 
     public function deleteTask($id)
     {
-        $task = $this->repo->find($id);
-        $this->em->remove($task);
-        $this->em->flush();
-
-        return true;
+        if ($task = $this->repo->find($id)) {
+            $this->em->remove($task);
+            $this->em->flush();
+            return true;
+        }
+        throw new \InvalidArgumentException('Task with current id not exist');
     }
 
     public function changeStatusOnDone($id)
     {
-        $task = $this->repo->find($id);
-        $task->setStatusDone();
-        $this->em->persist($task);
-        $this->em->flush();
-
-        return $task->getStatus();
+        if ($task = $this->repo->find($id)) {
+            $task->setStatusDone();
+            $this->em->persist($task);
+            $this->em->flush();
+            return $task->getStatus();
+        }
+        throw new \InvalidArgumentException('Task with current id not exist');
     }
 
     public function addTask($text)

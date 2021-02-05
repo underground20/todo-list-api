@@ -22,8 +22,8 @@ class DeleteTaskAction implements RequestHandlerInterface
     {
         $id = $request->getAttribute('id');
         if ($this->repo->deleteTask($id)) {
-            return new JsonResponse("Delete task");
+            return new JsonResponse("Delete task $id");
         }
-        throw new HttpNotFoundException($request);
+        throw new HttpNotFoundException($request, 'Miss required parameter id');
     }
 }
