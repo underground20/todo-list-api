@@ -40,23 +40,17 @@ class TaskService
 
     public function deleteTask($id): void
     {
-        if ($task = $this->taskRepo->findOne($id)) {
-            $this->em->remove($task);
-            $this->em->flush();
-        }
-        throw new \InvalidArgumentException('Task with current id not exist');
+        $task = $this->taskRepo->findOne($id);
+        $this->em->remove($task);
+        $this->em->flush();
     }
 
     public function changeStatusOnDone($id): int
     {
-        if ($task = $this->taskRepo->findOne($id)) {
-            $task->setStatusDone();
-            $this->em->persist($task);
-            $this->em->flush();
-            return $task->getStatus();
-        }
-        throw new \InvalidArgumentException('Task with current id not exist');
+        $task = $this->taskRepo->findOne($id);
+        $task->setStatusDone();
+        $this->em->persist($task);
+        $this->em->flush();
+        return $task->getStatus();
     }
-
-
 }

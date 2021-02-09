@@ -16,18 +16,26 @@ class TaskRepository
         $this->repo = $repo;
     }
 
-    public function findActiveTasks()
+    public function findActiveTasks(): array
     {
         return $this->repo->findBy([self::FIELD_STATUS_NAME => Status::TASK_IN_WORK]);
     }
 
-    public function findArchivedTasks()
+    public function findArchivedTasks(): array
     {
         return $this->repo->findBy([self::FIELD_STATUS_NAME => Status::TASK_DONE]);
     }
 
-    public function findOne($id)
+    /**
+     * @param string $id
+     * @return object
+     * @throws \InvalidArgumentException if task with id not find
+     */
+    public function findOne(string $id): object
     {
-        return $this->repo->find($id);
+        if ($task = $this->repo->find($id)) {
+            return $task;
+        }
+        throw new \InvalidArgumentException('Task with current id not exist');
     }
 }
