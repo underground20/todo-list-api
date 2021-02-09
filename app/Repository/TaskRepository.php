@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityRepository;
 
 class TaskRepository
 {
+    public const FIELD_STATUS_NAME = 'status';
+
     private EntityRepository $repo;
 
     public function __construct(EntityRepository $repo)
@@ -16,12 +18,12 @@ class TaskRepository
 
     public function findActiveTasks()
     {
-        return $this->repo->findBy(['status' => Status::TASK_IN_WORK]);
+        return $this->repo->findBy([self::FIELD_STATUS_NAME => Status::TASK_IN_WORK]);
     }
 
     public function findArchivedTasks()
     {
-        return $this->repo->findBy(['status' => Status::TASK_DONE]);
+        return $this->repo->findBy([self::FIELD_STATUS_NAME => Status::TASK_DONE]);
     }
 
     public function findOne($id)
