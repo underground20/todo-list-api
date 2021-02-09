@@ -3,7 +3,9 @@
         "slim/slim": "^4.7",
         "laminas/laminas-diactoros": "^2.5",
         "php-di/php-di": "^6.3",
-        "doctrine/orm": "^2.8"
+        "doctrine/orm": "^2.8",
+        "symfony/serializer": "^5.2",
+        "symfony/property-access": "^5.2"
     },
     "autoload": {
         "psr-4": {

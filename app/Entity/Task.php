@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @@ORM\Table(name="tasks")
  */
-class Task implements \JsonSerializable
+class Task
 {
     private const TEXT_MAX_LENGTH = 1000;
     /**
@@ -59,13 +59,5 @@ class Task implements \JsonSerializable
     public function setStatusDone()
     {
         $this->status = Status::TASK_DONE;
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'id' => $this->getId(),
-            'text' => $this->getText(),
-        ];
     }
 }
