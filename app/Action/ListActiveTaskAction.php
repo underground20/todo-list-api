@@ -2,7 +2,7 @@
 
 namespace App\Action;
 
-use App\Repository\TaskRepository;
+use App\Service\TaskService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,16 +10,16 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ListActiveTaskAction implements RequestHandlerInterface
 {
-    private TaskRepository $repo;
+    private TaskService $service;
 
-    public function __construct(TaskRepository $repo)
+    public function __construct(TaskService $service)
     {
-        $this->repo = $repo;
+        $this->service = $service;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $tasks = $this->repo->findActiveTasks();
+        $tasks = $this->service->getActive();
         return new JsonResponse($tasks, 200, [], JSON_PRETTY_PRINT);
     }
 }
