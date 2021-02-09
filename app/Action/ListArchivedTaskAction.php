@@ -2,24 +2,32 @@
 
 namespace App\Action;
 
+use App\Service\SerializeService;
 use App\Service\TaskService;
-use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class ListArchivedTaskAction implements RequestHandlerInterface
 {
-    private TaskService $service;
+    private TaskService $taskService;
+    private SerializeService $serializer;
 
-    public function __construct(TaskService $service)
+    public function __construct(TaskService $service, SerializeService $serializer)
     {
-        $this->service = $service;
+        $this->taskService = $service;
+        $this->serializer = $serializer;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $tasks = $this->service->getArchived();
-        return new JsonResponse($tasks, 200, [], JSON_PRETTY_PRINT);
+        $tasks = $this->taskService->getArchived();
+        $tasksJson = $this->serializer->serialize($tasks);
+        $response = new Response();
+        $response->getBody()->write($tasksJson);
+        return $response
+            ->withStatus(200)
+            ->withHeader('Content-Type', 'application/json');
     }
 }
