@@ -4,7 +4,6 @@ namespace App\Action;
 
 use App\Service\TaskService;
 use InvalidArgumentException;
-use Laminas\Diactoros\Response;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,6 +18,11 @@ class TaskCreateAction implements RequestHandlerInterface
         $this->service = $service;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws InvalidArgumentException if miss required parameter text
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $param = $request->getParsedBody();

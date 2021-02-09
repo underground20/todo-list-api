@@ -27,17 +27,21 @@ class Task
      */
     private int $status;
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
 
-    public function setText($text)
+    /**
+     * @param string $text
+     * @throws \InvalidArgumentException if the text length over 1000 symbols
+     */
+    public function setText(string $text)
     {
         if (mb_strlen($text) < self::TEXT_MAX_LENGTH) {
             $this->text = $text;
@@ -46,7 +50,7 @@ class Task
         }
     }
 
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->status;
     }
