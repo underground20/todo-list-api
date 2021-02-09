@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Task;
+use App\Entity\Status;
 use Doctrine\ORM\EntityRepository;
 
 class TaskRepository
@@ -16,12 +16,12 @@ class TaskRepository
 
     public function findActiveTasks()
     {
-        return $this->repo->findBy(['status' => Task::STATUS_IN_WORK]);
+        return $this->repo->findBy(['status' => Status::TASK_IN_WORK]);
     }
 
     public function findArchivedTasks()
     {
-        return $this->repo->findBy(['status' => Task::STATUS_DONE]);
+        return $this->repo->findBy(['status' => Status::TASK_DONE]);
     }
 
     public function findOne($id)

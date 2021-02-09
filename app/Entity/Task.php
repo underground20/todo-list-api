@@ -9,9 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Task implements \JsonSerializable
 {
-    public const STATUS_IN_WORK = 0;
-    public const STATUS_DONE = 1;
-
     private const TEXT_MAX_LENGTH = 1000;
     /**
      * @ORM\Column(type="integer")
@@ -56,12 +53,12 @@ class Task implements \JsonSerializable
 
     public function setStatusActive()
     {
-        $this->status = self::STATUS_IN_WORK;
+        $this->status = Status::TASK_IN_WORK;
     }
 
     public function setStatusDone()
     {
-        $this->status = self::STATUS_DONE;
+        $this->status = Status::TASK_DONE;
     }
 
     public function jsonSerialize()
