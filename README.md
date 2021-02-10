@@ -29,3 +29,7 @@ $ docker-compose exec php-fpm composer install
 ```sh
 $ docker-compose exec php-fpm vendor/bin/doctrine orm:schema-tool:create
 ```
+Add permissions to write cache iv var directory:
+```sh
+$ docker-compose exec php-fpm chmod -R 777 var
+```
