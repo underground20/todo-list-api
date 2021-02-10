@@ -2,25 +2,25 @@
 
 namespace App\Action;
 
-use App\Repository\TaskRepository;
-use Laminas\Diactoros\Response\JsonResponse;
+use App\Service\TaskService;
+use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class TaskChangeStatusAction implements RequestHandlerInterface
 {
-    private TaskRepository $repo;
+    private TaskService $service;
 
-    public function __construct(TaskRepository $repo)
+    public function __construct(TaskService $service)
     {
-        $this->repo = $repo;
+        $this->service = $service;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $id = $request->getAttribute('id');
-        $status = $this->repo->changeStatusOnDone($id);
-        return new JsonResponse("Task $id, change status on archived ");
+        $status = $this->service->changeStatusOnDone($id);
+        return new EmptyResponse(204);
     }
 }

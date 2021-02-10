@@ -2,24 +2,32 @@
 
 namespace App\Action;
 
-use App\Repository\TaskRepository;
-use Laminas\Diactoros\Response\JsonResponse;
+use App\Service\SerializeService;
+use App\Service\TaskService;
+use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class ListActiveTaskAction implements RequestHandlerInterface
 {
-    private TaskRepository $repo;
+    private TaskService $taskService;
+    private SerializeService $serializer;
 
-    public function __construct(TaskRepository $repo)
+    public function __construct(TaskService $service, SerializeService $serializer)
     {
-        $this->repo = $repo;
+        $this->taskService = $service;
+        $this->serializer = $serializer;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $tasks = $this->repo->findActiveTasks();
-        return new JsonResponse($tasks, 200, [], JSON_PRETTY_PRINT);
+        $tasks = $this->taskService->getActive();
+        $tasksJson = $this->serializer->serialize($tasks);
+        $response = new Response();
+        $response->getBody()->write($tasksJson);
+        return $response
+            ->withStatus(200)
+            ->withHeader('Content-Type', 'application/json');
     }
 }

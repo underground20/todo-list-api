@@ -2,61 +2,40 @@
 
 namespace App\Repository;
 
-use App\Entity\Task;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Status;
 use Doctrine\ORM\EntityRepository;
 
 class TaskRepository
 {
-    private EntityManagerInterface $em;
+    public const FIELD_STATUS_NAME = 'status';
+
     private EntityRepository $repo;
 
-    public function __construct(EntityManagerInterface $em, EntityRepository $repo)
+    public function __construct(EntityRepository $repo)
     {
-        $this->em = $em;
         $this->repo = $repo;
     }
 
-    public function findActiveTasks()
+    public function findActiveTasks(): array
     {
-        return $this->repo->findBy(['status' => Task::STATUS_IN_WORK]);
+        return $this->repo->findBy([self::FIELD_STATUS_NAME => Status::TASK_IN_WORK]);
     }
 
-    public function findArchivedTasks()
+    public function findArchivedTasks(): array
     {
-        return $this->repo->findBy(['status' => Task::STATUS_DONE]);
+        return $this->repo->findBy([self::FIELD_STATUS_NAME => Status::TASK_DONE]);
     }
 
-    public function deleteTask($id)
+    /**
+     * @param string $id
+     * @return object
+     * @throws \InvalidArgumentException if task with id not find
+     */
+    public function findOne(string $id): object
     {
         if ($task = $this->repo->find($id)) {
-            $this->em->remove($task);
-            $this->em->flush();
-            return true;
+            return $task;
         }
         throw new \InvalidArgumentException('Task with current id not exist');
     }
-
-    public function changeStatusOnDone($id)
-    {
-        if ($task = $this->repo->find($id)) {
-            $task->setStatusDone();
-            $this->em->persist($task);
-            $this->em->flush();
-            return $task->getStatus();
-        }
-        throw new \InvalidArgumentException('Task with current id not exist');
-    }
-
-    public function addTask($text)
-    {
-        $task = new Task();
-        $task->setText($text);
-        $task->setStatusActive();
-        $this->em->persist($task);
-        $this->em->flush();
-
-        return $task->getId();
-    }
-
 }
