@@ -25,9 +25,7 @@ $ docker-compose up -d
 ```sh
 $ composer install
 ```
-4. Add user in database
-
-5. Create database schema:
+4. Create database schema:
 ```sh
 $ docker-compose exec php-fpm vendor/bin/doctrine orm:schema-tool:create
 ```
