@@ -23,7 +23,7 @@ $ docker-compose up -d
 ```
 3. Install packages with composer:
 ```sh
-$ composer install
+$ docker-compose exec php-fpm composer install
 ```
 4. Create database schema:
 ```sh
